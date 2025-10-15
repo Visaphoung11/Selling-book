@@ -16,8 +16,7 @@ connectDB();
 //   res.send("WMAD Class");
 // }); // This is just a sample get endpoint
 
-app.use("/api/v1", router);
-app.use("/api/v1/books", bookRouter); // Finally define the endpoint route for the bookRouter
+app.use("/api/v1", router); // v1 means version 1 of book endpoints
 
 app.listen(4000, () => {
   console.log(`server run on port 4000`);
