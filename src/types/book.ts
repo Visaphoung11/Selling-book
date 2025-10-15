@@ -38,3 +38,14 @@ export interface BookResult {
   data: IBook;
   message?: string;
 }
+
+export interface getAllBooksService {
+  title: string;
+  author: string;
+  price: number;
+  discountPrice: number;
+  category: string;
+  stock: number;
+  image: string;
+  pages: number;
+} // this is the types of getting all books
