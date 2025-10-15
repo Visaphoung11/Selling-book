@@ -21,3 +21,22 @@ export const createBookService = async (
     };
   }
 };
+
+// The next endpoind is to get all books. First step is to write the logic to get all books then next go to src/controllers/bookController.ts
+export const getAllBooksService = async () => {
+  const books = await bookModel.find();
+try {
+  return {
+    success: true,
+      data: books,
+      message: "Get all books successfully",
+  };
+} catch (error) {
+  console.error("Error getting all book:", error);
+  return {
+    success: false,
+    data: null as any,
+    message: "Failed to get all books",
+  };
+}
+};
