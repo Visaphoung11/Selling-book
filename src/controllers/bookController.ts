@@ -23,5 +23,7 @@ export const getAllBooks = async (req: Request, res: Response) => {
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ success: false, message: "seever error" });
+    
+
   }
 }; // After creating the getAllBooks, we need to create the route for it
