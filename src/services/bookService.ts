@@ -25,18 +25,43 @@ export const createBookService = async (
 // The next endpoind is to get all books. First step is to write the logic to get all books then next go to src/controllers/bookController.ts
 export const getAllBooksService = async () => {
   const books = await bookModel.find();
-try {
-  return {
-    success: true,
+  try {
+    return {
+      success: true,
       data: books,
       message: "Get all books successfully",
-  };
-} catch (error) {
-  console.error("Error getting all book:", error);
-  return {
-    success: false,
-    data: null as any,
-    message: "Failed to get all books",
-  };
-}
+    };
+  } catch (error) {
+    console.error("Error getting all book:", error);
+    return {
+      success: false,
+      data: null as any,
+      message: "Failed to get all books",
+    };
+  }
+};
+
+export const deleteBookByIdService = async (bookId: string) => {
+  try {
+    const deletedBook = await bookModel.findByIdAndDelete(bookId);
+    if (!deletedBook) {
+      return {
+        success: false,
+        data: null as any,
+        message: "Book not found",
+      };
+    }
+    return {
+      success: true,
+      data: deletedBook,
+      message: "Book deleted successfully",
+    };
+  } catch (error) {
+    console.error("Error deleting book by id:", error);
+    return {
+      success: false,
+      data: null as any,
+      message: "Failed to delete book by id",
+    };
+  }
 };
