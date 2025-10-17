@@ -22,20 +22,36 @@ export const createBookService = async (
   }
 };
 
-// The next endpoind is to get all books. First step is to write the logic to get all books then next go to src/controllers/bookController.ts
-export const getAllBooksService = async () => {
-  const books = await bookModel.find();
+export const getAllBooksService = async (
+  page: number = 1,
+  limit: number = 10
+) => {
   try {
+    const totalItems = await bookModel.countDocuments();
+
+    const totalPages = Math.ceil(totalItems / limit);
+    const skip = (page - 1) * limit;
+
+    const books = await bookModel.find().skip(skip).limit(limit);
+
     return {
       success: true,
       data: books,
+      meta: {
+        totalItems,
+        itemCount: books.length,
+        itemsPerPage: limit,
+        totalPages,
+        currentPage: page,
+      },
       message: "Get all books successfully",
     };
   } catch (error) {
-    console.error("Error getting all book:", error);
+    console.error("Error getting all books:", error);
     return {
       success: false,
-      data: null as any,
+      data: null,
+      meta: null,
       message: "Failed to get all books",
     };
   }
@@ -62,6 +78,36 @@ export const deleteBookByIdService = async (bookId: string) => {
       success: false,
       data: null as any,
       message: "Failed to delete book by id",
+    };
+  }
+};
+
+export const updateBookByIdService = async (
+  bookId: string,
+  updateData: Partial<CreateBookInput>
+) => {
+  try {
+    const updatedBook = await bookModel.findByIdAndUpdate(bookId, updateData, {
+      new: true,
+    });
+    if (!updatedBook) {
+      return {
+        success: false,
+        data: null as any,
+        message: "Book not found",
+      };
+    }
+    return {
+      success: true,
+      data: updatedBook,
+      message: "Book updated successfully",
+    };
+  } catch (error) {
+    console.error("Error updating book by id:", error);
+    return {
+      success: false,
+      data: null as any,
+      message: "Failed to update book by id",
     };
   }
 };
