@@ -1,8 +1,11 @@
-import { createBookService } from "@/services/bookService";
+import {
+  createBookService,
+  getAllBooksService,
+  deleteBookByIdService,
+  updateBookByIdService,
+} from "@/services/bookService"; // after creating the getAllBooksService, we need to create the controller for it
 import { CreateBookInput } from "@/types/book";
 import { Request, Response } from "express";
-import { getAllBooksService } from "@/services/bookService"; // after creating the getAllBooksService, we need to create the controller for it
-import { deleteBookByIdService } from "@/services/bookService";
 
 export const createBook = async (req: Request, res: Response) => {
   try {
@@ -18,19 +21,34 @@ export const createBook = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllBooks = async (req: Request, res: Response) => {
-  try {
-    const result = await getAllBooksService();
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(500).json({ success: false, message: "seever error" });
-  }
-}; // After creating the getAllBooks, we need to create the route for it
+export const getAllBooksController = async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+
+  const result = await getAllBooksService(page, limit);
+  res.status(result.success ? 200 : 500).json(result);
+};
+// After creating the getAllBooks, we need to create the route for it
 
 export const deleteBookById = async (req: Request, res: Response) => {
   try {
     const bookId = req.params.id;
     const result = await deleteBookByIdService(bookId);
+    if (result.success) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json(result);
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export const updateBookById = async (req: Request, res: Response) => {
+  try {
+    const bookId = req.params.id;
+    const updateData = req.body;
+    const result = await updateBookByIdService(bookId, updateData);
     if (result.success) {
       res.status(200).json(result);
     } else {
