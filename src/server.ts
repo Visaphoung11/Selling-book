@@ -1,23 +1,36 @@
 import express from "express";
+import dotenv from "dotenv";
 import connectDB from "./config/database";
 import router from "./routes/index";
-import bookRouter from "./routes/bookRoute"; // Finally import the bookRouter from the routes
-const app = express();
-//Enable json parsing body
-app.use(express.json());
+import authRoutes from "./routes/authroute";
 
-//Enable URL-encoded parsing body parsing with extended mode
-//`extended : true` allow rich objects and arrays vai query string library
+dotenv.config();
+const app = express();
+
+// Middleware
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Connect DB
 connectDB();
 
-// app.get("/api/v1/get-all-users", (req, res) => {
-//   res.send("WMAD Class");
-// }); // This is just a sample get endpoint
+// Routes
+app.use("/api/v1", router); // existing routes
+app.use("/api/v1/auth", authRoutes); // auth routes
 
-app.use("/api/v1", router); // v1 means version 1 of book endpoints
+// Error handling
+app.use(
+  (
+    err: any,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    console.error(err.stack);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+);
 
-app.listen(4000, () => {
-  console.log(`server run on port 4000`);
-});
+// Start server
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
