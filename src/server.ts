@@ -2,8 +2,6 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/database";
 import router from "./routes/index";
-import authRoutes from "./routes/authroute";
-
 dotenv.config();
 const app = express();
 
@@ -11,12 +9,16 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+
+
 // Connect DB
 connectDB();
 
+
+
 // Routes
 app.use("/api/v1", router); // existing routes
-app.use("/api/v1/auth", authRoutes); // auth routes
 
 // Error handling
 app.use(
@@ -30,6 +32,9 @@ app.use(
     res.status(500).json({ success: false, message: "Server Error" });
   }
 );
+
+
+
 
 // Start server
 const PORT = process.env.PORT || 4000;
