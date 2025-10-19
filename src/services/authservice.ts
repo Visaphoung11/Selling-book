@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import Jwt from "jsonwebtoken";
 export const Registerservice = async (req: Request, res: Response) => {
-  const { email, password, firstName, lastName, userName, phone, age } =
+  const { email, password, firstName, lastName, userName, phone, age, } =
     req.body;
   try {
     const existEmail = await UserModel.findOne({ email });
@@ -47,9 +47,17 @@ export const Loginservice = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
     //generate JWT token (omitted for brevity)
-    const token = Jwt.sign({ id: existUser._id }, "SECRET_KEY", {
-      expiresIn: "1d",
-    });
+    const token = Jwt.sign(
+      {
+        id: existUser._id,
+        role: existUser.role,
+        email: existUser.email,
+        userName: existUser.userName,
+      },
+      process.env.JWT_SECRET || "SECRET_KEY",
+      {}
+    ); // update JWT Token Generation over here then we have to Create Role Middleware go to Create src/middlewares/roleMiddleware.ts
+
     return res.status(200).json({ message: "Login successful", token });
   } catch (error) {
     console.error("Error in login service:", error);

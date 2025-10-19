@@ -22,3 +22,13 @@ export interface RegisterInput {
   email: String;
   password: String;
 }
+
+
+ export interface JwtPayloadInput {
+   userId: string;
+   role: string;
+   email: string;
+   userName: string;
+   roles: string[];
+   
+ } // we have to use export interface because it is the input type
