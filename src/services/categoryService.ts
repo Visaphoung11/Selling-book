@@ -1,0 +1,37 @@
+import { CategoryModel, Category } from "@/model/category";
+
+
+type ServiceResponse<T> = {
+  success: boolean;
+  status: number;
+  data?: T;
+  message: string;
+};
+
+
+export const createCategory = async (
+    categoryData: Category
+
+) : Promise<ServiceResponse<Category>> => {
+    try {
+        const newCategory = await CategoryModel.create(categoryData);
+        return {
+            success: true,
+            status: 201,
+            data: newCategory,
+            message: "Category created successfully!"
+            
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            status: 500,
+            message: "Something went wrong!"
+        }
+
+    }
+
+
+    
+}
