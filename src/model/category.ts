@@ -9,3 +9,4 @@ const categorySchema = new Schema<Category>({
 });
 
 export const CategoryModel = model("category", categorySchema);
+
