@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import Jwt from "jsonwebtoken";
 export const Registerservice = async (req: Request, res: Response) => {
-  const { email, password, firstName, lastName, userName, phone, age, } =
+  const { email, password, firstName, lastName, userName, phone, age } =
     req.body;
   try {
     const existEmail = await UserModel.findOne({ email });
@@ -61,5 +61,15 @@ export const Loginservice = async (req: Request, res: Response) => {
     return res.status(200).json({ message: "Login successful", token });
   } catch (error) {
     console.error("Error in login service:", error);
+  }
+};
+
+export const logoutservice = async (req: Request, res: Response) => {
+  try {
+    // Invalidate the token on the client side by instructing the client to delete it.
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error("Error in logout service:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
