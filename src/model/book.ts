@@ -27,10 +27,15 @@ const bookSchema = new Schema(
       required: true,
       min: 0,
     },
-    category: {
-      type: String,
-      trim: true,
-    },
+      category: {
+    type: mongoose.Schema.Types.ObjectId, // store category ID
+    ref: "Category",                      // reference to Category model
+    required: true,
+  },
+    // category: {
+    //   type: String,
+    //   trim: true,
+    // },
     stock: {
       type: Number,
       default: 0,
