@@ -67,3 +67,67 @@ export const deleteCategory = async (
     };
   }
 };
+
+export const getCategoriseById = async (
+  categoryId: string
+): Promise<ServiceResponse<Category>> => {
+  try {
+    const category = await CategoryModel.findById(categoryId);
+    if (!category) {
+      return {
+        success: false,
+        status: 404,
+        message: "Category not found!",
+      };
+    }
+
+    return {
+      success: true,
+      status: 200,
+      data: category,
+      message: "Category fetched successfully!",
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      status: 500,
+      message: "Something went wrong!",
+    };
+  }
+};
+
+export const updateCategory = async (
+  categoryId: string,
+  updateData: Partial<Category>
+): Promise<ServiceResponse<Category>> => {
+  try {
+    const updatedCategory = await CategoryModel.findByIdAndUpdate(
+      categoryId,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedCategory) {
+      return {
+        success: false,
+        status: 404,
+        message: "Category not found!",
+      };
+    }
+
+    return {
+      success: true,
+      status: 200,
+      data: updatedCategory,
+      message: "Category updated successfully!",
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      status: 500,
+      message: "Something went wrong!",
+    };
+  }
+};
