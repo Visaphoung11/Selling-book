@@ -35,3 +35,40 @@ export const createCategory = async (
 
     
 }
+
+
+export const updateCategory = async (
+    categoryId: string,
+    updateData: Partial<Category>
+) : Promise<ServiceResponse<Category>> => {
+    try {
+        const updatedCategory = await CategoryModel.findByIdAndUpdate(
+            categoryId,
+            updateData,
+            { new: true }
+        );
+
+        if (!updatedCategory) {
+            return {
+                success: false,
+                status: 404,
+                message: "Category not found!"
+            }
+        }
+
+        return {
+            success: true,
+            status: 200,
+            data: updatedCategory,
+            message: "Category updated successfully!"
+        }
+
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            status: 500,
+            message: "Something went wrong!"
+        }
+    }
+}           
