@@ -31,4 +31,6 @@ export interface RegisterInput {
    userName: string;
    roles: string[];
    
- } // we have to use export interface because it is the input type
+} // we have to use export interface because it is the input type
+ 
+
