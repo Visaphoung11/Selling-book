@@ -1,5 +1,6 @@
 import { bookModel } from "@/model/book";
 import { CategoryModel, Category } from "@/model/category";
+import e from "express";
 
 type ServiceResponse<T> = {
   success: boolean;
@@ -127,6 +128,40 @@ export const updateCategory = async (
     return {
       success: false,
       status: 500,
+      message: "Something went wrong!",
+    };
+  }
+};
+
+export const getAllgetegorise = async (
+  page: number = 1,
+  limit: number = 10
+) => {
+  try {
+    const skip = (page - 1) * limit;
+    const total = await CategoryModel.countDocuments();
+    const categories = await CategoryModel.find()
+      .skip(skip)
+      .limit(limit)
+      .exec();
+
+    return {
+      success: true,
+      data: categories,
+      meta: {
+        total,
+        limit,
+        totalPages: Math.ceil(total / limit),
+        currentPage: page,
+      },
+      message: "Categories fetched successfully!",
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      data: null,
+      meta: null,
       message: "Something went wrong!",
     };
   }

@@ -4,6 +4,7 @@ import {
   updateCategory,
   getCategoriseById,
   createCategory,
+  getAllgetegorise,
 } from "../services/categoryService";
 export const createCategoryController = async (
   req: Request,
@@ -59,4 +60,15 @@ export const deleteCategoryController = async (
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });
   }
+};
+
+export const getAllcategoriesController = async (
+  req: Request,
+  res: Response
+) => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+
+  const result = await getAllgetegorise(page, limit);
+  res.status(result.success ? 200 : 500).json(result);
 };
