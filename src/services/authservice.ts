@@ -2,6 +2,9 @@ import { UserModel } from "@/model/user";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import Jwt from "jsonwebtoken";
+
+
+
 export const Registerservice = async (req: Request, res: Response) => {
   const { email, password, firstName, lastName, userName, phone, age } =
     req.body;

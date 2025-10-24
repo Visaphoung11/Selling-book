@@ -7,9 +7,8 @@ import {
   deleteCategoryController,
   getAllcategoriesController,
 } from "../controllers/categoryController";
-export const rouer = express.Router();
 import { roleCheck } from "../middlewares/roleMiddleware";
-import { get } from "http";
+
 const router = express.Router();
 router.post(
   "/create-category",

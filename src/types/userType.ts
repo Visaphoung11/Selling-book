@@ -25,7 +25,7 @@ export interface RegisterInput {
 
 
  export interface JwtPayloadInput {
-   userId: string;
+   id:string;
    role: string;
    email: string;
    userName: string;
