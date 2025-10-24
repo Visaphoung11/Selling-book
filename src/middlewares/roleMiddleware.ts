@@ -3,6 +3,15 @@ import jwt from "jsonwebtoken";
 import { JwtPayloadInput } from "../types/userType";
 
 
+
+export interface AuthRequest extends Request {
+  user?: {
+    id: string;
+    role: string;
+    email: string;
+    userName: string;
+  };
+}
 export const roleCheck = (allowedRoles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -18,19 +27,21 @@ export const roleCheck = (allowedRoles: string[]) => {
       const decoded = jwt.verify(token, secret) as JwtPayloadInput;
       // CRITICAL: Rebuild req.user with ONLY these fields – hides iat/exp forever
       const sanitizedUser = {
-        id: decoded.userId,
+        id: decoded.id,
         role: decoded.role,
         email: decoded.email,
         userName: decoded.userName,
         // If more fields in payload/response, add here: e.g., firstName: decoded.firstName
       };
+      
+      console.log(decoded.role)
 
       if (!allowedRoles.includes(decoded.role)) {
         return res
           .status(403)
           .json({ message: "Forbidden: Insufficient role" });
       }
-
+      console.log(sanitizedUser);
       (req as any).user = sanitizedUser;
       next();
     } catch (error) {

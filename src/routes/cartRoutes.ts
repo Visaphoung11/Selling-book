@@ -1,7 +1,9 @@
-import Router from "express";
+import express from "express";
 
-const router = Router();
+const router = express.Router();
 
-router.post("/create-cart");
+router.post("/create-cart", (req, res) => {
+  res.json({ message: "Create cart endpoint" });
+});
 
 export default router;

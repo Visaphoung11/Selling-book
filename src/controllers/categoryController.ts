@@ -6,19 +6,35 @@ import {
   createCategory,
   getAllgetegorise,
 } from "../services/categoryService";
+import {  AuthRequest } from "@/middlewares/roleMiddleware";
+
+
+
 export const createCategoryController = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
-): Promise<Response> => {
+) => {
   try {
-    const data = await createCategory(req.body);
-    return res.status(201).json(data);
+    const userId = req.user?.id; 
+    const { name, description } = req.body;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+
+    const data = await createCategory({ name, userId, description })
+
+    // return res.status(201).json(data); // This is the reason why postman always 201 even errors
+    return res.status(data.status).json(data);
+
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error("Error creating category:", error);
+    return res.status(500).json({
+      message: "Error while creating category",
+    });
   }
 };
-
 export const getCategoryByIdController = async (
   req: Request,
   res: Response

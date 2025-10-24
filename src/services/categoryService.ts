@@ -9,26 +9,43 @@ type ServiceResponse<T> = {
   message: string;
 };
 
-export const createCategory = async (
-  categoryData: Category
-): Promise<ServiceResponse<Category>> => {
+type CategoryInput = {
+  name: string;
+  userId: string;
+  description?: string;
+}
+
+export const createCategory = async (categoryData: CategoryInput) => {
   try {
-    const newCategory = await CategoryModel.create(categoryData);
+    const category = await CategoryModel.create({
+      name: categoryData.name,
+      userId: categoryData.userId,
+      description: categoryData.description, // The reason why is not showing the desscription in postman because dont include it in category create
+    });
     return {
       success: true,
       status: 201,
-      data: newCategory,
-      message: "Category created successfully!",
+      data: category,
+      message: "Category created successfully",
     };
-  } catch (error) {
-    console.log(error);
-    return {
-      success: false,
-      status: 500,
-      message: "Something went wrong!",
-    };
+  } catch (err: any) {
+    if(err.code === 11000){
+      return{
+        success:false,
+        status:409,
+        message:'Category already exists',
+      }; // Use this when you create the same category again and again.
+    } else {
+      return {
+        success: false,
+        status: 500,
+        message: err.message || "Internal server error",
+      }
+    }
   }
+ 
 };
+
 
 export const deleteCategory = async (
   categoryId: string
