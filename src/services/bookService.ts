@@ -42,20 +42,20 @@ export const getAllBooksService = async (
 
     const books = await bookModel
       .find()
-      .skip(skip)
-      .limit(limit)
+      // .skip(skip)
+      // .limit(limit)
       .populate("userId"); // populate user details;
 
     return {
       success: true,
       data: books,
       meta: {
-        totalItems,
-        itemCount: books.length,
+        itemCount: totalItems,
         itemsPerPage: limit,
         totalPages,
         currentPage: page,
       },
+
       message: "Get all books successfully",
     };
   } catch (error) {
