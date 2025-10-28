@@ -10,7 +10,7 @@ import { Request, Response } from "express";
 export const createBook = async (req: Request, res: Response) => {
   try {
     const bookData: CreateBookInput = req.body;
-    const result = await createBookService(bookData);
+    const result = await createBookService(req, bookData);
     res.status(201).json(result);
   } catch (error) {
     res.status(400).json({

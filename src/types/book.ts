@@ -3,8 +3,10 @@ export interface IBook {
   title: string;
   description?: string;
   author: string;
+
   publisher?: string;
-  price: number;
+  sellPrice: number;
+  basePrice?: number;
   discountPrice?: number;
   category?: string;
   stock: number;
@@ -22,10 +24,13 @@ export interface CreateBookInput {
   isbn?: string;
   description?: string;
   author: string;
+  sellPrice: number;
   publisher?: string;
   price: number;
-  discountPrice?: number;
-  category?: string;
+  basePrice?: number;
+  categoryId?: string;
+  userId: string;
+  orderId?: string;
   stock?: number;
   image?: string;
   pages?: number;
@@ -43,8 +48,11 @@ export interface getAllBooksService {
   title: string;
   author: string;
   price: number;
-  discountPrice: number;
-  category: string;
+  sellPrice: number;
+  basePrice: number;
+  userId: string;
+  orderId: string;
+  categoryId: string;
   stock: number;
   image: string;
   pages: number;
