@@ -18,27 +18,35 @@ const bookSchema = new Schema(
       required: true,
       trim: true,
     },
-    publisher: {
-      type: String,
+    basePrice: {
+      type: Number,
       trim: true,
     },
-    price: {
+    sellPrice: {
       type: Number,
       required: true,
       min: 0,
     },
-      category: {
-    type: mongoose.Schema.Types.ObjectId, // store category ID
-    ref: "Category",                      // reference to Category model
-    required: true,
-  },
-    // category: {
-    //   type: String,
-    //   trim: true,
-    // },
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId, // store category ID
+      ref: "Category", // reference to Category model
+      required: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    orderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Order",
+      required: false,
+      default: null,
+    },
+
     stock: {
       type: Number,
-      default: 0,
+      required: true,
       min: 0,
     },
     image: {
@@ -48,10 +56,6 @@ const bookSchema = new Schema(
     pages: {
       type: Number,
       min: 1,
-    },
-    language: {
-      type: String,
-      default: "English",
     },
   },
   {

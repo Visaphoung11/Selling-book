@@ -2,8 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { JwtPayloadInput } from "../types/userType";
 
-
-
 export interface AuthRequest extends Request {
   user?: {
     id: string;
@@ -33,8 +31,8 @@ export const roleCheck = (allowedRoles: string[]) => {
         userName: decoded.userName,
         // If more fields in payload/response, add here: e.g., firstName: decoded.firstName
       };
-      
-      console.log(decoded.role)
+
+      console.log(decoded.role);
 
       if (!allowedRoles.includes(decoded.role)) {
         return res
@@ -42,7 +40,7 @@ export const roleCheck = (allowedRoles: string[]) => {
           .json({ message: "Forbidden: Insufficient role" });
       }
       console.log(sanitizedUser);
-      (req as any).user = sanitizedUser;
+      req.user = sanitizedUser;
       next();
     } catch (error) {
       return res.status(401).json({ message: "Unauthorized: Invalid token" });
