@@ -11,9 +11,6 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// Connect DB
-connectDB()
-
 // Routes
 app.use("/api/v1", router)
 
@@ -23,9 +20,18 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   res.status(500).json({ success: false, message: "Server Error" })
 })
 
-export default app
-
 if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
   const PORT = process.env.PORT || 4000
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+
+  // Connect to database and start server
+  connectDB()
+    .then(() => {
+      app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+    })
+    .catch((error) => {
+      console.error("Failed to start server:", error)
+      process.exit(1)
+    })
 }
+
+export default app

@@ -8,18 +8,17 @@ let cachedConnection: typeof mongoose | null = null
 
 const connectDB = async (): Promise<void> => {
   if (cachedConnection && mongoose.connection.readyState === 1) {
-    console.log("Using cached MongoDB connection")
+    console.log("[v0] Using cached MongoDB connection")
     return
   }
 
-  const MONGODB_URI = process.env.MONGODB_URI as string
   try {
     const conn = await mongoose.connect(environment.MONGODB_URI)
     cachedConnection = conn
-    console.log(`MongoDB Connected: ${conn.connection.host}`)
+    console.log("[v0] MongoDB Connected:", conn.connection.host)
   } catch (error) {
-    console.error("Database connection error:", error)
-    process.exit(1)
+    console.error("[v0] Database connection error:", error)
+    throw new Error("Failed to connect to database")
   }
 }
 
