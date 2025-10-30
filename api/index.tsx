@@ -1,7 +1,8 @@
+import "tsconfig-paths/register"
 import express from "express"
 import dotenv from "dotenv"
-import connectDB from "./config/database"
-import router from "./routes/index"
+import connectDB from "../src/config/database"
+import router from "../src/routes/index"
 
 dotenv.config()
 
@@ -11,7 +12,7 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// Connect DB
+// Connect DB (will be cached in serverless)
 connectDB()
 
 // Routes
@@ -23,9 +24,6 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   res.status(500).json({ success: false, message: "Server Error" })
 })
 
+// Export for Vercel serverless
 export default app
-
-if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
-  const PORT = process.env.PORT || 4000
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
-}
+</merged_code

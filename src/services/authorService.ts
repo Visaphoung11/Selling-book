@@ -134,6 +134,3 @@ export const deleteAuthor = async (req: Request, res: Response) => {
     }
 }; // This is the funtion for deleting author by param id 
 // as well also use try catch to query data and catch error.
-
-
-

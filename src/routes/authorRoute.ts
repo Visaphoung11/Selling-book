@@ -9,4 +9,3 @@ authorRouter.put("/:id", updateAuthorHandler );
 authorRouter.delete("/:id", deleteAuthorHandler );
 
 export { authorRouter };
-

@@ -1,7 +1,8 @@
-import mongoose, { Schema, model, Document } from "mongoose";
+import type mongoose from "mongoose"
+import { Schema, model, type Document } from "mongoose"
 
 export interface ICart extends Document {
-  userId: mongoose.Types.ObjectId;
+  userId: mongoose.Types.ObjectId
 }
 const cartSchema = new Schema<ICart>(
   {
@@ -13,6 +14,7 @@ const cartSchema = new Schema<ICart>(
   },
   {
     timestamps: true, // adds createdAt and updatedAt automatically
-  }
-);
-export const CartModel = model<ICart>("Cart", cartSchema);
+  },
+)
+export const CartModel = model<ICart>("Cart", cartSchema)
+export const Cart = CartModel

@@ -32,5 +32,3 @@ export interface RegisterInput {
    roles: string[];
    
 } // we have to use export interface because it is the input type
- 
-
