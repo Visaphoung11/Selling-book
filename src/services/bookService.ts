@@ -1,4 +1,4 @@
-import { bookModel } from "@/model/book";
+import { Book } from "@/model/book";
 import { BookResult, CreateBookInput } from "@/types/book";
 import { Request } from "express";
 
@@ -10,7 +10,7 @@ export const createBookService = async (
     if (bookData.orderId === "") {
       delete bookData.orderId;
     }
-    const newBook = new bookModel({
+    const newBook = new Book({
       ...bookData,
       userId: req.user?.id,
     });
@@ -35,12 +35,12 @@ export const getAllBooksService = async (
   limit: number = 10
 ) => {
   try {
-    const totalItems = await bookModel.countDocuments();
+    const totalItems = await Book.countDocuments();
 
     const totalPages = Math.ceil(totalItems / limit);
     const skip = (page - 1) * limit;
 
-    const books = await bookModel
+    const books = await Book
       .find()
       .skip(skip)
       .limit(limit)
@@ -71,7 +71,7 @@ export const getAllBooksService = async (
 
 export const deleteBookByIdService = async (bookId: string) => {
   try {
-    const deletedBook = await bookModel.findByIdAndDelete(bookId);
+    const deletedBook = await Book.findByIdAndDelete(bookId);
     if (!deletedBook) {
       return {
         success: false,
@@ -99,7 +99,7 @@ export const updateBookByIdService = async (
   updateData: Partial<CreateBookInput>
 ) => {
   try {
-    const updatedBook = await bookModel.findByIdAndUpdate(bookId, updateData, {
+    const updatedBook = await Book.findByIdAndUpdate(bookId, updateData, {
       new: true,
     });
     if (!updatedBook) {

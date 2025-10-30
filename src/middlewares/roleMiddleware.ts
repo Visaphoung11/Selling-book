@@ -33,6 +33,8 @@ export const roleCheck = (allowedRoles: string[]) => {
       };
 
       console.log(decoded.role);
+      
+      // console.log(decoded.role)
 
       if (!allowedRoles.includes(decoded.role)) {
         return res
@@ -41,6 +43,8 @@ export const roleCheck = (allowedRoles: string[]) => {
       }
       console.log(sanitizedUser);
       req.user = sanitizedUser;
+      // console.log(sanitizedUser);
+      (req as any).user = sanitizedUser;
       next();
     } catch (error) {
       return res.status(401).json({ message: "Unauthorized: Invalid token" });

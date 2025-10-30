@@ -1,23 +1,22 @@
-export interface IBook {
-  _id?: string;
+import { Document } from "mongoose";
+import mongoose from "mongoose";
+export interface IBook extends Document {
+  _id: mongoose.Types.ObjectId;
   title: string;
   description?: string;
-  author: string;
-
-  publisher?: string;
-  sellPrice: number;
+  authorId: mongoose.Types.ObjectId; 
   basePrice?: number;
-  discountPrice?: number;
-  category?: string;
+  sellPrice: number;
+  categoryId: mongoose.Types.ObjectId;
+  userId: mongoose.Types.ObjectId;
+  orderId?: mongoose.Types.ObjectId | null;
   stock: number;
   image?: string;
   pages?: number;
-  language?: string;
-  isActive?: boolean;
-  isFeatured?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
+
 
 export interface CreateBookInput {
   title: string;

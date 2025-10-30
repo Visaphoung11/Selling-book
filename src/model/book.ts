@@ -1,7 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { IBook } from "@/types/book";
 
-const bookSchema = new Schema(
+
+const bookSchema = new Schema<IBook>(
   {
     title: {
       type: String,
@@ -13,14 +14,14 @@ const bookSchema = new Schema(
       type: String,
       trim: true,
     },
-    author: {
-      type: String,
+    authorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Author", 
       required: true,
-      trim: true,
     },
     basePrice: {
       type: Number,
-      trim: true,
+      min: 0,
     },
     sellPrice: {
       type: Number,
@@ -28,8 +29,8 @@ const bookSchema = new Schema(
       min: 0,
     },
     categoryId: {
-      type: mongoose.Schema.Types.ObjectId, // store category ID
-      ref: "Category", // reference to Category model
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
       required: true,
     },
     userId: {
@@ -43,7 +44,6 @@ const bookSchema = new Schema(
       required: false,
       default: null,
     },
-
     stock: {
       type: Number,
       required: true,
@@ -63,4 +63,4 @@ const bookSchema = new Schema(
   }
 );
 
-export const bookModel = mongoose.model<IBook & Document>("Book", bookSchema);
+export const Book = mongoose.model<IBook>("Book", bookSchema);
