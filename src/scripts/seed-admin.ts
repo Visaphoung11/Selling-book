@@ -33,6 +33,7 @@ export const seedAdminUser = async () => {
     });
 
     await adminUser.save();
+    
     console.log("✅ Admin user seeded successfully");
   }
 }; // After this update JWT Token Generation in authservice.ts

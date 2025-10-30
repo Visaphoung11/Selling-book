@@ -1,6 +1,5 @@
-import { bookModel } from "@/model/book";
+import { Book } from "../model/book";
 import { CategoryModel, Category } from "@/model/category";
-import e from "express";
 
 type ServiceResponse<T> = {
   success: boolean;
@@ -60,7 +59,7 @@ export const deleteCategory = async (
       };
     }
 
-    const associatedBooks = await bookModel.find({ category: categoryId });
+    const associatedBooks = await Book.find({ category: categoryId });
     if (associatedBooks.length > 0) {
       return {
         success: false,
